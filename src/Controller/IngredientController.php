@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Ingredient;
+
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\IngredientType;
 use Doctrine\ORM\Mapping\Entity;
+use App\Entity\Ingredient;
 
 #[Route('/ingredient', name: 'ingredient')]
 class IngredientController extends AbstractController
@@ -70,6 +71,7 @@ class IngredientController extends AbstractController
         ]);
     }
 
+
     #[Route('/edition/{id}', name: '.edit', methods: ['GET', 'POST'])]
     public function edit(int $id, Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
     {
@@ -93,6 +95,7 @@ class IngredientController extends AbstractController
             'form' => $form
         ]);
     }
+
     #[Route('/suppresion/{id}', name: '.delete', methods: ['GET'])]
     public function delete(Ingredient $ingredient, EntityManagerInterface $manager): Response
     {

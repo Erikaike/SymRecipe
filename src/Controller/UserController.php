@@ -6,14 +6,16 @@ use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class UserController extends AbstractController
 {
-    #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
+
     /**
      * Edit User Profile
      *
@@ -22,25 +24,27 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function edit(User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
+    #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_USER') and user === choosenUser")]
+    public function edit(User $choosenUser, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
+        //l'annotation Security rend cette portion de code inutile
         //Verif que l'user est bien connecté, sinon redirection vers loginpage
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('security.login');
-        }
-
+        // if (!$this->getUser()) {
+        //     return $this->redirectToRoute('security.login');
+        // }
         //Verif que l'user qui fait l'action est bien l'user qui est connecté sinon redirection vers l'index des recettes
-        if ($this->getUser() !== $user) {
-            return $this->redirectToRoute('recipe.index');
-        }
+        // if ($this->getUser() !== $user) {
+        //     return $this->redirectToRoute('recipe.index');
+        // }
 
         //Sinon l'user peut acceder au formulaire :)  
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $choosenUser);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //Demande à l'user d'entrer son mdp pour confirmer que c'est bien lui => condition : le "plain password" entré correspond à celui de l'user
-            if ($hasher->isPasswordValid($user, $form->getData()->getPlainPassword())) {
+            if ($hasher->isPasswordValid($choosenUser, $form->getData()->getPlainPassword())) {
                 $user = $form->getData();
                 $manager->persist($user);
                 $manager->flush();
@@ -63,22 +67,26 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * 
+     */
+    #[Security("is_granted('ROLE_USER') and user === choosenUser")]
     #[Route('utlisateur/edition-mot-de-pass/{id}', name: 'user.edit.password', methods: ['GET', 'POST'])]
-    public function editPassword(User $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
+    public function editPassword(User $choosenUser, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
-                $user->setPassword(
+            if ($hasher->isPasswordValid($choosenUser, $form->getData()['plainPassword'])) {
+                $choosenUser->setPassword(
                     $hasher->hashpassword(
-                        $user,
+                        $choosenUser,
                         $form->getData()['newPassword']
                     )
                 );
 
-                $manager->persist($user);
+                $manager->persist($choosenUser);
                 $manager->flush();
 
                 $this->addFlash(

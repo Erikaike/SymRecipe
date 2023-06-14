@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\RecipeType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/recette', name: 'recipe.')]
 class RecipeController extends AbstractController
@@ -24,10 +26,11 @@ class RecipeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(PaginatorInterface $paginator, RecipeRepository $repository, Request $request): Response
     {
         $recipes = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
@@ -54,6 +57,8 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recipe = $form->getData();
+            //Pour la recette nouvellement créée soit directement assignée à l'user courant
+            $recipe->setUser($this->getUser());
 
             $manager->persist($recipe);
             $manager->flush();
@@ -72,6 +77,7 @@ class RecipeController extends AbstractController
     }
 
 
+    #[Security("IsGranted('ROLE_USER') and user === recipe.getUser()")]
     #[Route('/edition/{id}', name: 'edit', methods: ['GET', 'POST'])]
     /**
      * Undocumented function

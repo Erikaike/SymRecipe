@@ -13,6 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\IngredientType;
 use Doctrine\ORM\Mapping\Entity;
 use App\Entity\Ingredient;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 #[Route('/ingredient', name: 'ingredient')]
 class IngredientController extends AbstractController
@@ -26,10 +29,12 @@ class IngredientController extends AbstractController
      * @return Response
      */
     #[Route('/', name: '.index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(IngredientRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $ingredients = $paginator->paginate(
-            $repository->findAll(),
+            //On va afficher les ingrédients reliés à l'user courant grâce à la méthode getUser() issue de l'abstract controller 
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
@@ -47,6 +52,7 @@ class IngredientController extends AbstractController
      * @return Response
      */
     #[Route('/nouveau', name: '.new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(EntityManagerInterface $manager, Request $request): Response
     {
         $ingredient = new Ingredient();
@@ -55,6 +61,8 @@ class IngredientController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
+            //On fera en sorte que l'ingrédient nouvellement crée soit directement relié à l'utilisateur courant
+            $ingredient->setUser($this->getUser());
 
             $manager->persist($ingredient);
             $manager->flush();
@@ -71,7 +79,7 @@ class IngredientController extends AbstractController
         ]);
     }
 
-
+    #[Security("is_granted('ROLE_USER') and user === ingredient.getUser()")]
     #[Route('/edition/{id}', name: '.edit', methods: ['GET', 'POST'])]
     public function edit(int $id, Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
     {

@@ -1,14 +1,13 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block title %}SymRecipe - Accueil
+{% block title %}SymRecipe - Mes recettes!
 {% endblock %}
 
 {% block body %}
-	<div class="container mt-4">
-		<h1 class="lt-4">Bienvenue</h1>
-		<div class="recipes">
-			<h2 class="mt-4">Recettes de la communauté</h2>
-			<div class="d-flex justify-content-between">
+	<div class="container">
+		{% if not recipes.items is same as ([]) %}
+			<h1 class="mt-4">Recettes de la communauté</h1>
+			<div class="d-flex justify-content-center flex-wrap">
 				{% for recipe in recipes %}
 					<div class="card border-primary mb-3 ml-3" style="max-width: 20rem;">
 						<div class="card-header">Recette n{{ recipe.id }}</div>
@@ -19,7 +18,8 @@
 					</div>
 				{% endfor %}
 			</div>
-		</div>
-
-
-	{% endblock %}
+		{% else %}
+			<h4>Il n'y a pas de recettes</h4>
+		{% endif %}
+	</div>
+{% endblock %}

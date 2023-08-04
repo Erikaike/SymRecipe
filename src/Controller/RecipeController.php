@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Mark;
 use App\Entity\Recipe;
+use App\Form\MarkType;
+use App\Repository\MarkRepository;
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -12,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\RecipeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\SecurityBundle\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/recette', name: 'recipe.')]
 class RecipeController extends AbstractController
@@ -41,12 +44,97 @@ class RecipeController extends AbstractController
     }
 
     /**
+     * Undocumented function
+     *
+     * @return Response
+     */
+    #[Route('/publique', name: '.index.public', methods: ['GET'])]
+    public function indexPublic(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $recipes = $paginator->paginate($repository->findPublicRecipe(null), $request->query->getInt('page', 1), 10);
+
+
+        return $this->render('pages/recipe/index_public.html.twig', [
+            'recipes' => $recipes,
+        ]);
+    }
+
+
+    //Achecker voir a suppr
+    // #[Security("is_granted('ROLE_USER') and recipe.isIsPublic() === true")]
+    // #[Route('/{id}', name: 'show', methods: ['GET'])]
+    // public function show(Recipe $recipe): Response
+    // {
+    //     return $this->render('pages/recipe/show.html.twig', [
+    //         'recipe' => $recipe,
+    //     ]);
+    // }
+
+    /**
+     * This controller allow us to see a recipe if this one is public
+     *
+     * @param Recipe $recipe
+     * @return Response
+     */
+    #[Security("is_granted('ROLE_USER') and (recipe.isIsPublic() === true || user === recipe.getUser())")]
+    #[Route('/{id}', 'show', methods: ['GET', 'POST'])]
+    public function show(
+        Recipe $recipe,
+        Request $request,
+        MarkRepository $markRepository,
+        EntityManagerInterface $manager
+    ): Response {
+        $mark = new Mark();
+        $form = $this->createForm(MarkType::class, $mark);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mark->setUser($this->getUser())
+                ->setRecipe($recipe);
+
+//On veut savoir si l'user courant a déjà noté cette recette en utilisant
+//Une méthode "find" depuis le repo pour checker si une pair
+//user/recipe existe déjà
+            $existingMark = $markRepository->findOneBy([
+                'user' => $this->getUser(),
+                'recipe' => $recipe
+            ]);
+            
+            if (!$existingMark) {
+                $manager->persist($mark);
+            } else {
+                $existingMark->setMark(
+                    $form->getData()->getMark()
+                );
+            }
+
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre note a bien été prise en compte.'
+            );
+
+            return $this->redirectToRoute('recipe.show', ['id' => $recipe->getId()]);
+        }
+
+        return $this->render('pages/recipe/show.html.twig', [
+            'recipe' => $recipe,
+            'form' => $form->createView()
+        ]);
+    }
+
+
+
+    //Achecker
+    /**
      * Creates a new recipe
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/creation', name: 'new', methods: ['GET', 'POST'])]
 
     public function new(Request $request, EntityManagerInterface $manager): Response
@@ -76,9 +164,8 @@ class RecipeController extends AbstractController
         ]);
     }
 
-
-    #[Security("IsGranted('ROLE_USER') and user === recipe.getUser()")]
-    #[Route('/edition/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    #[Security("is_granted('ROLE_USER') and user === recipe.getUser()")]
+    #[Route('/edition/{id}', name: '.edit', methods: ['GET', 'POST'])]
     /**
      * Undocumented function
      *

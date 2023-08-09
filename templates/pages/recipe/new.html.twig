@@ -5,8 +5,7 @@
 
 {% block body %}
 	<div class="container">
-		<h1 class="mt-4">
-			Création d'une recette</h1>
+		<h1 class="mt-4">Création d'une recette</h1>
 
 		{{ form_start(form) }}
 
@@ -60,8 +59,11 @@
 			</div>
 		</div>
 
+		{{ form_row(form.imageFile) }}
+
 		{{ form_row(form.ingredients) }}
 
 		{{ form_end(form) }}
+	</div>
 
-	{% endblock %}
+{% endblock %}

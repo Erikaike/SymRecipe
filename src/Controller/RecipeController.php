@@ -59,18 +59,42 @@ class RecipeController extends AbstractController
         ]);
     }
 
-
-    //Achecker voir a suppr
-    // #[Security("is_granted('ROLE_USER') and recipe.isIsPublic() === true")]
-    // #[Route('/{id}', name: 'show', methods: ['GET'])]
-    // public function show(Recipe $recipe): Response
-    // {
-    //     return $this->render('pages/recipe/show.html.twig', [
-    //         'recipe' => $recipe,
-    //     ]);
-    // }
-
     /**
+     * This controller allow us to create a new recipe
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[IsGranted('ROLE_USER')]
+    #[Route('/creation', 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $manager): Response
+    {
+        $recipe = new Recipe();
+        $form = $this->createForm(RecipeType::class, $recipe);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $recipe = $form->getData();
+            $recipe->setUser($this->getUser());
+
+            $manager->persist($recipe);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre recette a été créé avec succès !'
+            );
+
+            return $this->redirectToRoute('recipe.index');
+        }
+
+        return $this->render('pages/recipe/new.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+     /**
      * This controller allow us to see a recipe if this one is public
      *
      * @param Recipe $recipe
@@ -125,47 +149,8 @@ class RecipeController extends AbstractController
     }
 
 
-
-    //Achecker
-    /**
-     * Creates a new recipe
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
-     */
-    #[IsGranted('ROLE_USER')]
-    #[Route('/creation', name: 'new', methods: ['GET', 'POST'])]
-
-    public function new(Request $request, EntityManagerInterface $manager): Response
-    {
-        $recipe = new Recipe();
-        $form = $this->createForm(RecipeType::class, $recipe);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $recipe = $form->getData();
-            //Pour la recette nouvellement créée soit directement assignée à l'user courant
-            $recipe->setUser($this->getUser());
-
-            $manager->persist($recipe);
-            $manager->flush();
-
-            $this->addFlash(
-                'succes',
-                'Votre recette a été ajoutée avec succes'
-            );
-
-            return $this->redirectToRoute('recipe.index');
-        }
-
-        return $this->render('pages/recipe/new.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
     #[Security("is_granted('ROLE_USER') and user === recipe.getUser()")]
-    #[Route('/edition/{id}', name: '.edit', methods: ['GET', 'POST'])]
+    #[Route('/edition/{id}', name: 'edit', methods: ['GET', 'POST'])]
     /**
      * Undocumented function
      *

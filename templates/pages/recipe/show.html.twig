@@ -21,7 +21,7 @@
 		<div class"mt-4">
 			{% if recipe.time %}
 				<p>Time(min):
-					{{ recipe.time }}</p>
+					{{ recipe.time|min_to_hour }}</p>
 			{% else %}
 				Unknown
 			{% endif %}

@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\RecipeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 #[Route('/recette', name: 'recipe.')]
 class RecipeController extends AbstractController
@@ -51,7 +53,12 @@ class RecipeController extends AbstractController
     #[Route('/publique', name: '.index.public', methods: ['GET'])]
     public function indexPublic(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        $recipes = $paginator->paginate($repository->findPublicRecipe(null), $request->query->getInt('page', 1), 10);
+        $cache = new FilesystemAdapter();
+        $data = $cache->get('recipes', function(ItemInterface $item) use ($repository) {
+            $item->expiresAfter(15);
+            return $repository->findPublicRecipe(null);
+        });
+        $recipes = $paginator->paginate($data, $request->query->getInt('page', 1), 10);
 
 
         return $this->render('pages/recipe/index_public.html.twig', [

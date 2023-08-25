@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}SymRecipe -
+{% block title %}Eri-cipe -
 	{{ recipe.name }}
 {% endblock %}
 
@@ -12,47 +12,47 @@
 			<img style="max-width: 500px;" src="{{ vich_uploader_asset(recipe, 'imageFile') }}">
 		</div>
 
-		<p>La moyenne de cette recette est de {{ recipe.average|number_format(2, '.', ',') }}/5</p>
+		<p>The average score of this Eri-cipe is {{ recipe.average|number_format(2, '.', ',') }}/5</p>
 		<div>
-			<span class="badge bg-primary">Créée le
+			<span class="badge bg-primary">Created the : 
 				{{ recipe.createdAt|date('d/m/Y') }}</span>
 		</div>
 
 		<div class"mt-4">
 			{% if recipe.time %}
-				<p>Temps(min):
+				<p>Time(min):
 					{{ recipe.time }}</p>
 			{% else %}
-				Temps non renseigné
+				Unknown
 			{% endif %}
 		</div>
 
 		<div class"mt-4">
 			{% if recipe.serving %}
-				<p>Temps(min):
+				<p>Serving:
 					{{ recipe.serving }}</p>
 			{% else %}
-				Nombre de personne non renseigné
+				Unknown
 			{% endif %}
 		</div>
 
 		<div class"mt-4">
 			{% if recipe.difficulty %}
-				<p>Difficulté:
+				<p>Difficulty:
 					{{ recipe.difficulty}}/5
 				</p>
 			{% else %}
-				Difficultée non renseignée
+				Unknown
 			{% endif %}
 		</div>
 
 		<div class"mt-4">
 			{% if recipe.price %}
-				<p>Prix:
+				<p>Price:
 					{{ recipe.price}}
 				</p>
 			{% else %}
-				Prix non renseignée
+				Unknown
 			{% endif %}
 		</div>
 
@@ -68,7 +68,6 @@
 				</span>
 			{% endfor %}
 		</div>
-
 		<div class="mark">
 			{{ form(form) }}
 		</div>

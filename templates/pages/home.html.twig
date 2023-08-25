@@ -1,25 +1,25 @@
 {% extends "base.html.twig" %}
 
-{% block title %}SymRecipe - Accueil
+{% block title %}Eri-cipe - Home
 {% endblock %}
 
 {% block body %}
 	<div class="container mt-4">
-		<h1 class="lt-4">Bienvenue</h1>
+		<h1 class="lt-4">Welcome 😊</h1>
 		<div class="recipes">
-			<h2 class="mt-4">Recettes de la communauté</h2>
+			<h2 class="mt-4">A few Eri-cipes</h2>
 			<div class="d-flex justify-content-between">
 				{% for recipe in recipes %}
+				<a style="text-decoration:none" href="{{ path('recipe.show', {id: recipe.id}) }}">
 					<div class="card border-primary mb-3 ml-3" style="max-width: 20rem;">
-						<div class="card-header">Recette n{{ recipe.id }}</div>
+						<div class="card-header">Eri-cipe n{{ recipe.id }}</div>
 						<div class="card-body">
 							<h4 class="card-title">{{ recipe.name }}</h4>
 							<p class="card-text">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
 						</div>
 					</div>
+				</a>
 				{% endfor %}
 			</div>
 		</div>
-
-
-	{% endblock %}
+{% endblock %}

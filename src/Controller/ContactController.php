@@ -9,11 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MailService;
 
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'contact.index')]
-    public function index(Request $request, EntityManagerInterface $manager): Response
+    public function index(Request $request, EntityManagerInterface $manager, MailService $mailService): Response
     {
         $contact = new Contact();
 //Dans le cas où l'user courant est un user connecté
@@ -31,6 +32,10 @@ class ContactController extends AbstractController
 
             $manager->persist($contact);
             $manager->flush();
+
+            $mailService->sendEMail(
+                $contact->getEmail, $contact->getSubject, 'email/contact.html.twig', ['contact' => $contact]
+            );
 
             $this->addFlash(
                 'success',

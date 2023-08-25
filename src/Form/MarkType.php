@@ -25,7 +25,7 @@ class MarkType extends AbstractType
                 'attr' => [
                     'class' => 'form-select text-dark'
                 ],
-                'label' => 'Noter la recette',
+                'label' => 'Rate the Eri-cipe',
                 'label_attr' => [
                     'class' => 'form-label mt-4 text-dark'
                 ]
@@ -34,7 +34,7 @@ class MarkType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ],
-                'label' => 'Noter la recette',
+                'label' => 'Rate the Eri-cipe',
             ]);
     }
 

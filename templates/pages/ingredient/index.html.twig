@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SymRecipe - Mes Ingredients!
+{% block title %}Eri-cipe - My Ingredients!
 {% endblock %}
 
 {% block body %}
 	<div class="container">
 		{% if not ingredients.items is same as ([]) %}
-			<h1 class="mt-4">Mes ingrédients</h1>
+			<h1 class="mt-4">My Ingredients</h1>
 
-			<a href="{{ path('ingredient.new') }}" class="btn btn-primary">créer un ingrédient</a>
+			<a href="{{ path('ingredient.new') }}" class="btn btn-primary">Create an ingredient</a>
 
 			{% for message in app.flashes('succes') %}
 				<div class="alert alert-succes mt-4">
@@ -18,20 +18,20 @@
 
 
 			<div class="count mt-4">
-				<h4>Il y a
+				<h4>There're
 					{{ ingredients.getTotalItemCount }}
-					ingrédients au total</h4>
+					ingredients in total</h4>
 			</div>
 
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th scope="col">Num</th>
-						<th scope="col">Nom</th>
-						<th scope="col">Prix</th>
-						<th scope="col">Date de création</th>
-						<th scope="col">Edition</th>
-						<th scope="col">Suppression</th>
+						<th scope="col">N°</th>
+						<th scope="col">Name</th>
+						<th scope="col">Price</th>
+						<th scope="col">Creation date</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,10 +42,10 @@
 							<td>{{ ingredient.price }}</td>
 							<td>{{ ingredient.createdAt|date('d/m/y') }}</td>
 							<td>
-								<a href="{{ path('ingredient.edit', {id: ingredient.id}) }}" class="btn btn-info">Modifier</a>
+								<a href="{{ path('ingredient.edit', {id: ingredient.id}) }}" class="btn btn-info">Update</a>
 							</td>
 							<td>
-								<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" class="btn btn-warning">Supprimer</a>
+								<a href="{{ path('ingredient.delete', {id: ingredient.id}) }}" class="btn btn-warning">Delete</a>
 							</td>
 						</tr>
 					{% endfor %}
@@ -55,7 +55,7 @@
 				{{ knp_pagination_render(ingredients) }}
 			</div>
 		{% else %}
-			<h4>Il n'y a pas d'ingrédients</h4>
+			<h4>There's no ingredient</h4>
 		{% endif %}
 	</div>
 {% endblock %}

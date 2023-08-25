@@ -39,7 +39,7 @@ class RecipeType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => 'Nom',
+                'label' => 'Name',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -55,7 +55,7 @@ class RecipeType extends AbstractType
                     'max' => 1440,
                 ],
                 'required' => false,
-                'label' => 'Temps (en minutes)',
+                'label' => 'Time',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -71,7 +71,7 @@ class RecipeType extends AbstractType
                     'max' => 50,
                 ],
                 'required' => false,
-                'label' => 'Nombre de personnes (en minutes)',
+                'label' => 'Servings',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -87,7 +87,7 @@ class RecipeType extends AbstractType
                     'max' => 5,
                 ],
                 'required' => false,
-                'label' => 'Difficulté',
+                'label' => 'Difficulty',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -115,7 +115,7 @@ class RecipeType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'required' => false,
-                'label' => 'prix',
+                'label' => 'price',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -129,7 +129,7 @@ class RecipeType extends AbstractType
                     'class' => 'form-check-input',
                 ],
                 'required' => false,
-                'label' => 'Favoris?',
+                'label' => 'Fav?',
                 'label_attr' => [
                     'class' => 'form-check-label'
                 ],
@@ -138,7 +138,7 @@ class RecipeType extends AbstractType
                 ]
             ])
             ->add('imageFile', VichImageType::class, [
-                'label' => 'Image de la recette',
+                'label' => 'Eri-cipe picture',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -152,7 +152,7 @@ class RecipeType extends AbstractType
                         ->orderBy('i.name', 'ASC')
                         ->setParameter('user', $this->token->getToken()->getUser());
                 },
-                'label' => 'Les ingrédients',
+                'label' => 'ingredients',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -164,7 +164,7 @@ class RecipeType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ],
-                'label' => 'Modifier ma recette'
+                'label' => 'Done 🥗'
             ]);
     }
 

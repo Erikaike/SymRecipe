@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SymRecipe - Mes recettes!
+{% block title %}Eri-cipe - My Eri-cipes!
 {% endblock %}
 
 {% block body %}
 	<div class="container">
 		{% if not recipes.items is same as ([]) %}
-			<h1 class="mt-4">Recettes de la communauté</h1>
+			<h1 class="mt-4">All the Eri-cipes 😋</h1>
 			<div class="d-flex justify-content-center flex-wrap">
 				{% for recipe in recipes %}
+				<a style="text-decoration:none" href="{{ path('recipe.show', {id: recipe.id}) }}">
 					<div class="card border-primary mb-3 ml-3" style="max-width: 20rem;">
 						<div class="card-header">Recette n{{ recipe.id }}</div>
 						<div class="card-body">
@@ -16,10 +17,11 @@
 							<p class="card-text">{{ recipe.description|slice(0, 100) ~ '...' }}</p>
 						</div>
 					</div>
+				</a>
 				{% endfor %}
 			</div>
 		{% else %}
-			<h4>Il n'y a pas de recettes</h4>
+			<h4>There's no recipe</h4>
 		{% endif %}
 	</div>
 {% endblock %}

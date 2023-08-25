@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
+
 
 class ContactType extends AbstractType
 {
@@ -24,7 +27,7 @@ class ContactType extends AbstractType
                 'minlength' => '2',
                 'maxlength' => '50',
             ],
-            'label' => 'Nom/prénom',
+            'label' => 'Full Name',
             'label_attr' => [
                 'class' => 'form-label mt-4'
             ],
@@ -35,7 +38,7 @@ class ContactType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '180',
                 ],
-                'label' => 'email',
+                'label' => 'Email',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -63,7 +66,7 @@ class ContactType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'label' => 'message',
+                'label' => 'Message',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -75,11 +78,16 @@ class ContactType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ],
-                'label' => 'Send my message'
+                'label' => 'Send my message 💌'
+            ])
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(['message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}']),
+                'action_name' => 'contact',
             ]);
-        ;
-    }
 
+    
+}
+        
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

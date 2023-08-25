@@ -61,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mark::class, orphanRemoval: true)]
     private Collection $marks;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePic = null;
+
     /**
      * Summary of __construct
      */
@@ -282,6 +285,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $mark->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfilePic(): ?string
+    {
+        return $this->profilePic;
+    }
+
+    public function setProfilePic(?string $profilePic): self
+    {
+        $this->profilePic = $profilePic;
 
         return $this;
     }

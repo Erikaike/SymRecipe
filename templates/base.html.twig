@@ -21,15 +21,17 @@
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 		{% endblock %}
 	</head>
-	<body>
-		{% block header %}
-			{% include "partials/_header.html.twig" %}
-			{% for message in app.flashes('success') %}
-				<div class="alert alert-success mt-4">
-					{{ message }}
-				</div>
-			{% endfor %}
-		{% endblock %}
-		{% block body %}{% endblock %}
+	<body  {{ stimulus_controller('symfony/ux-swup/swup') }}>
+		<div id="swup">
+			{% block header %}
+				{% include "partials/_header.html.twig" %}
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success mt-4">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endblock %}
+			{% block body %}{% endblock %}
+		</div>
 	</body>
 </html>

@@ -97,7 +97,8 @@ class RecipeController extends AbstractController
         }
 
         return $this->render('pages/recipe/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'recipe' => $recipe
         ]);
     }
 
@@ -167,8 +168,9 @@ class RecipeController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function edit(int $id, Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Request $request, Recipe $recipe, EntityManagerInterface $manager): Response
     {
+       
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -186,7 +188,9 @@ class RecipeController extends AbstractController
         }
 
         return $this->render('pages/recipe/edit.html.twig', [
-            'form' => $form
+            'recipe' => $recipe,
+            'form' => $form,
+            
         ]);
     }
 

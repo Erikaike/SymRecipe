@@ -1,67 +1,16 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+
+{% block title %}New Eri-cipe {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h1 class="mt-4">
-			Update your Eri-cipe 😋
-		</h1>
-
-		{{ form_start(form) }}
-
-		<div class="form-group">
-			{{ form_label(form.name) }}
-			{{ form_widget(form.name) }}
-			<div class="form-error">
-				{{ form_errors(form.name) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_label(form.time) }}
-			{{ form_widget(form.time) }}
-			<div class="form-error">
-				{{ form_errors(form.time) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_label(form.serving) }}
-			{{ form_widget(form.serving) }}
-			<div class="form-error">
-				{{ form_errors(form.serving) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_label(form.difficulty) }}
-			{{ form_widget(form.difficulty) }}
-			<div class="form-error">
-				{{ form_errors(form.difficulty) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_label(form.description) }}
-			{{ form_widget(form.description) }}
-			<div class="form-error">
-				{{ form_errors(form.description) }}
-			</div>
-		</div>
-		<div class="form-group">
-			{{ form_label(form.price) }}
-			{{ form_widget(form.price) }}
-			<div class="form-error">
-				{{ form_errors(form.price) }}
-			</div>
-		</div>
-
-		<div class="form-check mt-4">
-			{{ form_widget(form.isFavorite) }}
-			{{ form_label(form.isFavorite) }}
-		</div>
-		<div class="form-error">
-			{{ form_errors(form.isFavorite) }}
-		</div>
-
-
-	{{ form_row(form.ingredients) }}
-
-	{{ form_end(form) }}
-
-</div>{% endblock %}
+    
+    <div class="text-center mt-2 mb-2">
+        <h1>Update your Eri-cipe : {{recipe.name}} 😋</h1>
+    </div>
+    {% include "pages/recipe/_form.html.twig" %}
+    <div class="text-center">
+        <button type="submit" class="btn btn-secondary mt-4 bt-4">{{ button_label|default('Done 🥗') }}</button>
+    </div>
+    {{ form_end(form) }}
+</section>
+{% endblock %}

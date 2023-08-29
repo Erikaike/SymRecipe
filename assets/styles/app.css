@@ -1,0 +1,30 @@
+.margin {
+    margin: 0 auto;
+    max-width: 1400px;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+#upload-recipe-picture-form {
+    background-color: #CA3783 ;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+#upload-recipe-picture-form .dropzone-container {
+    border: 2px dashed #fff;
+    justify-content: center;
+    min-height: 195px;
+}
+
+#uploade-recipe-picture-form .dropzone-preview-image {
+    min-width: 260px;
+    height: 144px;
+}
+
+#new-recipe-form {
+    background-color: #37B0DE;
+    border-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}

@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class RecipeType extends AbstractType
 {
@@ -34,14 +35,12 @@ class RecipeType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control border-primary',
                     'minlength' => '2',
-                    'maxlength' => '50'
-                ],
-                'label' => 'Name',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'maxlength' => '50',
+                    'placeholder' => 'Name',
                 ],
                 'constraints' => [
                     new Assert\Length(['min' => 2, 'max' => 50]),
@@ -49,32 +48,28 @@ class RecipeType extends AbstractType
                 ]
             ])
             ->add('time', IntegerType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control border-primary',
                     'min' => 1,
                     'max' => 1440,
+                    'placeholder' => 'Time'
                 ],
                 'required' => false,
-                'label' => 'Time',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
                 'constraints' => [
                     new Assert\Positive(),
                     new Assert\LessThan(1441)
                 ],
             ])
             ->add('serving', IntegerType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control border-primary',
                     'min' => 1,
                     'max' => 50,
+                    'placeholder' => 'Serving',
                 ],
                 'required' => false,
-                'label' => 'Servings',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
                 'constraints' => [
                     new Assert\Positive(),
                     new Assert\LessThan(51)
@@ -82,7 +77,7 @@ class RecipeType extends AbstractType
             ])
             ->add('difficulty', RangeType::class, [
                 'attr' => [
-                    'class' => 'form-range',
+                    'class' => 'form-range border-primary',
                     'min' => 1,
                     'max' => 5,
                 ],
@@ -97,28 +92,25 @@ class RecipeType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control border-primary',
                     'min' => 1,
-                    'max' => 5
-                ],
-                'label' => 'Description',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'max' => 5,
+                    'placeholder' => 'Description'
                 ],
                 'constraints' => [
                     new Assert\NotBlank()
                 ],
             ])
             ->add('price', MoneyType::class, [
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control border-primary',
+                    'placeholder' => 'price'
                 ],
                 'required' => false,
-                'label' => 'price',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
-                ],
+                
                 'constraints' => [
                     new Assert\Positive(),
                     new Assert\LessThan(1001)
@@ -126,7 +118,7 @@ class RecipeType extends AbstractType
             ])
             ->add('isFavorite', CheckboxType::class, [
                 'attr' => [
-                    'class' => 'form-check-input',
+                    'class' => 'form-check-input border-primary',
                 ],
                 'required' => false,
                 'label' => 'Fav?',
@@ -137,12 +129,13 @@ class RecipeType extends AbstractType
                     new Assert\NotNull()
                 ]
             ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Eri-cipe picture',
-                'label_attr' => [
-                    'class' => 'form-label mt-4'
+            ->add('imageFile', DropzoneType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Browse your picture here',
                 ],
-                'required' => false
+
             ])
             ->add('ingredients', EntityType::class, [
                 'class' => Ingredient::class,
@@ -152,19 +145,13 @@ class RecipeType extends AbstractType
                         ->orderBy('i.name', 'ASC')
                         ->setParameter('user', $this->token->getToken()->getUser());
                 },
-                'label' => 'ingredients',
+                'label' => 'Ingredients',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => true,
-            ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-4'
-                ],
-                'label' => 'Done 🥗'
             ]);
     }
 

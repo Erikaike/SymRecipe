@@ -1,0 +1,41 @@
+<section class="margin">
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_errors(form) }}
+        <div id="upload-recipe-picture-form"class="p-4">
+            <div class="col text-center" >
+                {% if recipe.imageFile %}
+                    <p class="mb-2">Your current Eri-picture</p>
+                    <img src="{{ vich_uploader_asset(recipe, 'imageFile') }}" id="recipe-picture-form" alt="recipe-picture">
+                {% endif %}
+                {{ form_row(form.imageFile) }}
+            </div>
+        </div>
+        {{ form_errors(form.imageFile) }}
+    <div id="new-recipe-form" class="p-4">
+        <div class="col mt-4">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col mt-4"; style="width: 14rem;">
+            {{ form_row(form.time) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.serving) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.difficulty) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.isFavorite) }}
+        </div>
+        <div class="col mt-4">
+            {{ form_row(form.ingredients) }}
+        </div>
+        {{ form_end(form) }}
+        {{ form_errors(form) }}
+    </div>

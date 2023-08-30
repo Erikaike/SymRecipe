@@ -7,6 +7,18 @@
 	<div class="container mt-4">
 		<h1 class="lt-4">Welcome 😊</h1>
 		<div class="recipes">
+		<div class="p-5" style="font-size: 1.3em;">
+        <span
+            {{ stimulus_controller('symfony/ux-typed', {
+                strings: [
+                    'Add some spice to your life',
+                ],
+                loop: true,
+                showCursor: true,
+                cursorChar: '✨',
+            }) }}
+        ></span>
+    </div>
 			<h2 class="test mt-4">A few Eri-cipes</h2>
 			<div class="d-flex justify-content-between">
 				{% for recipe in recipes %}
@@ -22,4 +34,5 @@
 				{% endfor %}
 			</div>
 		</div>
+	</div>
 {% endblock %}

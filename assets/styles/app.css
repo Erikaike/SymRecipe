@@ -5,6 +5,8 @@
     padding: 1.5rem;
 }
 
+/* form */
+
 #upload-recipe-picture-form {
     background-color: #CA3783 ;
     border-top-right-radius: 10px;
@@ -28,3 +30,20 @@
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+
+/* carousel */
+
+.carousel-item:after {
+content: '';
+position: absolute;
+}
+
+div.carousel-item.active {
+display:flex;
+
+}
+
+.carousel-item {
+justify-content: center;
+}
+

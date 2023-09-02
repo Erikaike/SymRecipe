@@ -1282,6 +1282,9 @@
 "@symfony/ux-swup@file:vendor/symfony/ux-swup/assets":
   version "1.1.0"
 
+"@symfony/ux-toggle-password@file:vendor/symfony/ux-toggle-password/assets":
+  version "1.0.0"
+
 "@symfony/ux-typed@file:vendor/symfony/ux-typed/assets":
   version "1.0.0"
 

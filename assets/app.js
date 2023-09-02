@@ -1,11 +1,65 @@
 import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+// Function to fetch random recipe details
+async function fetchRandomRecipeDetails() {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const data = await response.json();
+    return data.meals[0];
+}
 
+// Function to build carousel items with recipe details
+async function buildCarouselItems() {
+    const carouselInner = document.querySelector('.carousel-inner');
+    const carouselIndicators = document.querySelector('.carousel-indicators');
+
+    for (let i = 0; i < 3; i++) { // Display 3 random recipes
+        const recipe = await fetchRandomRecipeDetails();
+
+        const item = document.createElement('div');
+        item.classList.add('carousel-item');
+        if (i === 0) {
+            item.classList.add('active');
+        }
+
+        const img = document.createElement('img');
+        img.src = recipe.strMealThumb;
+        img.alt = recipe.strMeal;
+        img.classList.add('d-block');
+
+        const caption = document.createElement('div');
+        caption.classList.add('carousel-caption', 'd-none', 'd-md-block');
+        const title = document.createElement('h5');
+        title.textContent = recipe.strMeal;
+
+        const areaLabel = document.createElement('p');
+        areaLabel.textContent = `From: ${recipe.strArea}`;
+
+        const anchorLink = document.createElement('a');
+        anchorLink.href = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipe.idMeal}`;
+        anchorLink.textContent = 'View Recipe Details';
+
+        caption.appendChild(title);
+        caption.appendChild(areaLabel);
+        caption.appendChild(anchorLink);
+
+        item.appendChild(img);
+        item.appendChild(caption);
+
+        carouselInner.appendChild(item);
+
+        // Create and add indicators
+        const indicator = document.createElement('button');
+        indicator.type = 'button';
+        indicator.dataset.bsTarget = '#carouselExampleCaptions';
+        indicator.dataset.bsSlideTo = i.toString();
+        if (i === 0) {
+            indicator.classList.add('active');
+        }
+        carouselIndicators.appendChild(indicator);
+    }
+}
+
+// Call the function to build carousel items
+buildCarouselItems();
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 

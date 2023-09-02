@@ -36,6 +36,7 @@ class UserPasswordType extends AbstractType
                 'invalid_message' => 'Les mdp ne correspondent pas'
             ])
             ->add('newPassword', PasswordType::class, [
+                'toggle' => true,
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Nouveau mdp',
                 'label_attr' => ['class' => 'form-label mt-4'],

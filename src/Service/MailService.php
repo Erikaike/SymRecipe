@@ -14,15 +14,14 @@ class MailService
         $this->mailer = $mailer;
     }
 
-    public function sendEMail(string $from, string $subject, string $htmlTemplate, array $context, string $to = 'admin@symrecipe.com'): void
+    public function sendEMail(string $from, string $render, array $context, array $form): void
     {
-        $email = (new TemplatedEmail())
-        ->from($from)
-        ->to($to)
-        ->subject($subject)
-        ->htmlTemplate($htmlTemplate)
-        ->context($context);
+        $email = (new \Symfony\Component\Mime\Email())
+            ->from($from)
+            ->to($form->get('email')->getData())
+            ->subject('your password resetting next step :D')
+            ->html($render);
 
-    $this->mailer->send($email);
+        $this->mailer->send($email);
     }
 }

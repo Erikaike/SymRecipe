@@ -10,6 +10,7 @@
         "@symfony/stimulus-bridge": "^3.2.0",
         "@symfony/ux-dropzone": "file:vendor/symfony/ux-dropzone/assets",
         "@symfony/ux-swup": "file:vendor/symfony/ux-swup/assets",
+        "@symfony/ux-toggle-password": "file:vendor/symfony/ux-toggle-password/assets",
         "@symfony/ux-typed": "file:vendor/symfony/ux-typed/assets",
         "@symfony/webpack-encore": "^4.0.0",
         "core-js": "^3.23.0",

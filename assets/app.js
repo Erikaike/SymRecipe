@@ -1,4 +1,13 @@
-import './bootstrap.js';
+// any CSS you import will output into a single css file (app.css in this case)
+import './styles/app.css';
+// start the Stimulus application
+import './bootstrap';
+
+
+// Function to show password 
+
+
+
 // Function to fetch random recipe details
 async function fetchRandomRecipeDetails() {
     const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
@@ -34,7 +43,7 @@ async function buildCarouselItems() {
         areaLabel.textContent = `From: ${recipe.strArea}`;
 
         const anchorLink = document.createElement('a');
-        anchorLink.href = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipe.idMeal}`;
+        anchorLink.href = `${recipe.strSource}`;
         anchorLink.textContent = 'View Recipe Details';
 
         caption.appendChild(title);
@@ -58,10 +67,19 @@ async function buildCarouselItems() {
     }
 }
 
-// Call the function to build carousel items
-buildCarouselItems();
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+// Fonction pour activer et faire défiler le carrousel
+function activateCarousel() {
+    const carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
+        interval: 5000, // Intervalle de temps en millisecondes entre chaque diapositive
+    });
+}
 
-// start the Stimulus application
-import './bootstrap';
+// Appeler la fonction pour construire les éléments du carrousel
+buildCarouselItems();
+
+// Appeler la fonction pour activer le carrousel
+activateCarousel();
+
+
+// import './bootstrap.js';
+

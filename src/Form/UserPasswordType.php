@@ -5,6 +5,8 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -19,7 +21,7 @@ class UserPasswordType extends AbstractType
                     'attr' => [
                         'class' => 'form-control'
                     ],
-                    'label' => 'mdp',
+                    'label' => 'current password',
                     'label_attr' => [
                         'class' => 'form-label mt-4'
                     ],
@@ -28,7 +30,7 @@ class UserPasswordType extends AbstractType
                     'attr' => [
                         'class' => 'form-control'
                     ],
-                    'label' => 'confirm mdp',
+                    'label' => 'confirm password',
                     'label_attr' => [
                         'class' => 'form-label mt-4'
                     ],
@@ -38,15 +40,15 @@ class UserPasswordType extends AbstractType
             ->add('newPassword', PasswordType::class, [
                 'toggle' => true,
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Nouveau mdp',
+                'label' => 'new password',
                 'label_attr' => ['class' => 'form-label mt-4'],
                 'constraints' => [new Assert\NotBlank]
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary mt-4'
+                    'class' => 'btn btn-primary mt-4 mb-4'
                 ],
-                'label' => 'Changer mon mdp'
+                'label' => 'Change my password'
             ]);
     }
 }

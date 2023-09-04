@@ -28,22 +28,25 @@
 			<div class="form-group">
 				<label for="password" class="form-label mt-4">Password</label>
 				<input type="password" class="form-control" name="_password" id="myInput"  placeholder="*****">
-				<input type="checkbox" onclick="myFunction()">Show Password
+				<input type="checkbox" onclick="show()"><p>Show Password</p>
 			</div>
 
 			<button type="submit" class="btn btn-primary mt-4">Log in</button>
 		</form>
 
-		{# <button type="button" class="btn btn-info mt-2" href="{{ path('app_forgot_password_request') }}">Forgot your password ? Let's reset it</button> #}
-<script>
-function myFunction() {
-  var x = document.getElementById("myInput");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
-</script>
+		<form action="{{ path('app_forgot_password_request') }}" method="post">
+			<button type="submit" class="btn btn-info mt-2">Forgot your password ? Let's reset it</button>
+		</form>
+		
 	</div>
+	<script>
+	function show() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+	</script>
 {% endblock %}

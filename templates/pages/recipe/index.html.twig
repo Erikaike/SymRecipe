@@ -4,6 +4,29 @@
 {% endblock %}
 
 {% block body %}
+	<div class="container mt-2" style="font-size: 3em;">
+		<span
+				{{ stimulus_controller('symfony/ux-typed', {
+					strings: [
+						'Recipes added by the Admin',
+					],
+					loop: true,
+					showCursor: true,
+					cursorChar: '🥘',
+				}) }}
+			>
+		</span>
+	</div>
+	<div class="slideshow">
+		<div id="carouselExampleCaptions" class="carousel slide">
+			<div class="carousel-indicators">
+				<!-- Indicateurs-->
+			</div>
+			<div class="carousel-inner">
+				<!-- Slides-->
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		{% if not recipes.items is same as ([]) %}
 			<h1 class="mt-4">My Eri-cipes</h1>

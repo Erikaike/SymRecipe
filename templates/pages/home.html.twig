@@ -4,36 +4,27 @@
 {% endblock %}
 
 {% block body %}
+	<div class="ratio ratio-16x9">
+			<iframe src="https://www.youtube.com/embed/x2DArX6YKeo?autoplay=1&loop=1&mute=1&amp;controls=0&amp;start=421" frameborder="0" allowfullscreen></iframe>
+		</div>
 	<div class="container mt-4">
-		<h1 class="lt-4">Welcome 😊</h1>
-		<div class="ratio ratio-16x9">
-			<iframe src="https://www.youtube.com/embed/x2DArX6YKeo?autoplay=1&loop=1&mute=1&amp;controls=0" frameborder="0" allowfullscreen></iframe>
-		</div>
-		<div id="carouselExampleCaptions" class="carousel slide">
-			<div class="carousel-indicators">
-				<!-- Indicateurs seront générés dynamiquement -->
-			</div>
-			<div class="carousel-inner">
-				<!-- Slides seront générés dynamiquement -->
-			</div>
-		</div>
+		<h1 class="lt-4">Welcome {% if app.user %} {{app.user.fullName}} {% endif %}😊</h1>
 	</div>
 	<div class="recipes">
-		<div class="p-5" style="font-size: 1.3em;">
-		<span
-			{{ stimulus_controller('symfony/ux-typed', {
-				strings: [
-					'Add some spices to your life',
-				],
-				loop: true,
-				showCursor: true,
-				cursorChar: '✨',
-			}) }}
-		>
-		</span>
+		<div class="p-5" style="font-size: 3em;">
+			<span
+				{{ stimulus_controller('symfony/ux-typed', {
+					strings: [
+						'Add some spices to your life with a few Eri-cipes',
+					],
+					loop: true,
+					showCursor: true,
+					cursorChar: '✨',
+				}) }}
+			>
+			</span>
 		</div>
-		<h2 class="test mt-4 d-flex justify-content-center">A few Eri-cipes</h2>
-		<div class="mt-4 d-flex justify-content-around">
+		<div class="mt-2 d-flex justify-content-around">
 			{% for recipe in recipes %}
 			<a style="text-decoration:none" href="{{ path('recipe.show', {id: recipe.id}) }}">
 				<div class="card border-primary mb-3 ml-3" style="max-width: 20rem;">

@@ -90,7 +90,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre recette a été créé avec succès !'
+                'Your Eri-cipe has been successfully created 🥳 !'
             );
 
             return $this->redirectToRoute('recipe.index');
@@ -144,7 +144,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre note a bien été prise en compte.'
+                'Thank you 😚'
             );
 
             return $this->redirectToRoute('recipe.show', ['id' => $recipe->getId()]);
@@ -181,7 +181,7 @@ class RecipeController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                'Votre recette a été modifiée'
+                'Your Eri-cipe has been successfully updated 🥳 !'
             );
 
             return $this->redirectToRoute('recipe.index');
@@ -209,7 +209,7 @@ class RecipeController extends AbstractController
 
         $this->addFlash(
             'succes',
-            'Votre recette a été supprimé'
+            'Your Eri-cipe has been successfully deleted 🗑️ !'
         );
 
         return $this->redirectToRoute('recipe.index');

@@ -44,7 +44,7 @@ class IngredientController extends AbstractController
     }
 
     /**
-     * This controller show a form which create an ingredient
+     * This controller show a form that creates an ingredient
      *
      * @param EntityManagerInterface $manager
      * @param Request $request
@@ -68,7 +68,7 @@ class IngredientController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                'Votre ingrédient a été ajouté'
+                'Your ingredient has been added  ❤️'
             );
 
             return $this->redirectToRoute('ingredient.index');
@@ -92,7 +92,7 @@ class IngredientController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                'Votre ingrédient a été modifié'
+                'Your ingredient has been updated 🫡'
             );
 
             return $this->redirectToRoute('ingredient.index');
@@ -111,7 +111,7 @@ class IngredientController extends AbstractController
 
         $this->addFlash(
             'succes',
-            'Votre ingrédient a été supprimé'
+            'Your ingredient has been deleted 🗑️'
         );
 
         return $this->redirectToRoute('ingredient.index');

@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
     #[Route('/deconnexion', name: 'security.logout')]
     public function logout()
     {
-        //Nothing to do here..
+        //..
     }
 
     #[Route('/inscription', name: 'security.registration', methods: ['GET', 'POST'])]
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash(
                 'succes',
-                'Votre comte a bien été créé'
+                'Your account has been successfully created 🎉'
             );
 
             $manager->persist($user);

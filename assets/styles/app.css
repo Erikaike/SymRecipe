@@ -5,6 +5,10 @@
     padding: 1.5rem;
 }
 
+.nav-link {
+    margin-left: 7px;
+}
+
 /* form */
 
 #upload-recipe-picture-form {
@@ -45,14 +49,4 @@ display:flex;
 
 .carousel-item {
 justify-content: center;
-}
-
-/* Password field */
-
-.field-icon {
-    float: right;
-    margin-left: -25px;
-    margin-top: -25px;
-    position: relative;
-    z-index: 2;
 }

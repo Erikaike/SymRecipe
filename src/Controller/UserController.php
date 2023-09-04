@@ -12,6 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Form\UserPasswordType;
 
 class UserController extends AbstractController
 {
@@ -25,18 +26,9 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
-    #[Security("is_granted('ROLE_USER') and user === choosenUser")]
+    // #[Security("is_granted('ROLE_USER') and user === choosenUser")]
     public function edit(User $choosenUser, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
-        //l'annotation Security rend cette portion de code inutile
-        //Verif que l'user est bien connecté, sinon redirection vers loginpage
-        // if (!$this->getUser()) {
-        //     return $this->redirectToRoute('security.login');
-        // }
-        //Verif que l'user qui fait l'action est bien l'user qui est connecté sinon redirection vers l'index des recettes
-        // if ($this->getUser() !== $user) {
-        //     return $this->redirectToRoute('recipe.index');
-        // }
 
         //Sinon l'user peut acceder au formulaire :)  
         $form = $this->createForm(UserType::class, $choosenUser);
@@ -51,13 +43,13 @@ class UserController extends AbstractController
 
                 $this->addFlash(
                     'succes',
-                    'Les infos de votre compte ont bien été modifiées'
+                    'Your informations have been updated'
                 );
                 return $this->redirectToRoute('recipe.index');
             } else {
                 $this->addFlash(
                     'warning',
-                    'Le mot de passe renseigné est incorrect '
+                    'wrong credentials '
                 );
             }
         }
@@ -70,8 +62,8 @@ class UserController extends AbstractController
     /**
      * 
      */
-    #[Security("is_granted('ROLE_USER') and user === choosenUser")]
-    #[Route('utlisateur/edition-mot-de-pass/{id}', name: 'user.edit.password', methods: ['GET', 'POST'])]
+    // #[Security("is_granted('ROLE_USER') and user === choosenUser")]
+    #[Route('utlisateur/edition-mot-de-passe/{id}', name: 'user.edit.password', methods: ['GET', 'POST'])]
     public function editPassword(User $choosenUser, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserPasswordType::class);
@@ -91,14 +83,14 @@ class UserController extends AbstractController
 
                 $this->addFlash(
                     'succes',
-                    'le mdp a été modifié'
+                    'the password has been updated'
                 );
 
                 return $this->redirectToRoute('recipe.index');
             } else {
                 $this->addFlash(
-                    'succes',
-                    'le mdp a été incorrect'
+                    'warning',
+                    'Wrong credentials'
                 );
             }
         }

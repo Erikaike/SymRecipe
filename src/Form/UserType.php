@@ -23,7 +23,7 @@ class UserType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50',
                 ],
-                'label' => 'Nom/prénom',
+                'label' => 'Full name',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -39,7 +39,7 @@ class UserType extends AbstractType
                     'maxlength' => '50',
                 ],
                 'required' => false,
-                'label' => 'Pseudo (facultatif)',
+                'label' => 'Pseudo (optional)',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
@@ -53,16 +53,11 @@ class UserType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50',
                 ],
-                'label' => 'mdp',
+                'label' => 'Password',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
-                'invalid_message' => 'Le mdp ne correspondent pas'
-            ])
-            ->add('submit',  SubmitType::class, [
-                'attr' => [
-                    'btn' => 'btn btn-primary mt-4'
-                ]
+                'invalid_message' => 'Wrong password'
             ]);
     }
 

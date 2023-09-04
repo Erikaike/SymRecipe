@@ -67,10 +67,10 @@ async function buildCarouselItems() {
     }
 }
 
-// Fonction pour activer et faire défiler le carrousel
+// move carousel
 function activateCarousel() {
     const carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
-        interval: 5000, // Intervalle de temps en millisecondes entre chaque diapositive
+        interval: 3000, // Intervalle de temps en millisecondes entre chaque diapositive
     });
 }
 
@@ -79,6 +79,9 @@ buildCarouselItems();
 
 // Appeler la fonction pour activer le carrousel
 activateCarousel();
+
+document.querySelector('iframe').defaultPlaybackRate = 2.0;
+document.querySelector('iframe').play();
 
 
 // import './bootstrap.js';
